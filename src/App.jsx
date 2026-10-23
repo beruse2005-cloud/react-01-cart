@@ -91,7 +91,7 @@ function App() {
                 </tr>)}
                 </tbody>
             </table>
-            <h3>총 품목 : 몇개 / 총 수량: 몇개</h3>
+            <h3>총 품목 : {cart.length}개 / 총 수량: {cart.reduce((sum, item) => { return item.quantity + sum }, 0)}개</h3>
         </>
     );
 }
