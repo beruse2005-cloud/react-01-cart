@@ -55,12 +55,38 @@ function App() {
                 <tbody>
                 {cart.map((item, index) => <tr key={index}>
                     <td>{item.name}</td>
-                    <td>수량변경</td>
                     <td>
                         <button onClick={() => {
-                            const result = cart.filter((v, i) => { return i !== index });
+                            // 지금 현재 수량이 1 이하면, 실행하지 않게끔
+                            if (item.quantity <= 1) {
+                                return;
+                            }
+                            const newCart = [...cart];
+                            newCart[index].quantity -= 1;
+                            setCart(newCart);
+                        }}>-</button>
+                        {item.quantity}
+                        <button onClick={() => {
+                            // cart의 정보 중, index 자리에 있는 요소의 quantity값을 +1
+                            // cart[index].quantity += 1;   => 이렇게 쓰면 안됨 / react가 바꾼걸 모름
+                            //                              => state의 값을 바꿀땐 set을 쓰라고 했음
+
+                            // 1. react가 알아채개끔 하려면, 새 배열을 cart에 넣어야 됨 => 새 배열을 만들고
+                            // 2. 값을 바꾸고
+                            // 3. 그렇게 만들어진 배열을 setCart에 넣게 단계별로 진행하는 게 이해하기 쉽고 편함
+                            const newCart = [...cart];
+                            newCart[index].quantity += 1;
+                            setCart(newCart);
+                        }}>+</button>
+                    </td>
+                    <td>
+                        <button onClick={() => {
+                            const result = cart.filter((v, i) => {
+                                return i !== index
+                            });
                             setCart(result);
-                        }}>삭제</button>
+                        }}>삭제
+                        </button>
                     </td>
                 </tr>)}
                 </tbody>
